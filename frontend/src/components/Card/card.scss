@@ -1,0 +1,11 @@
+.card {
+  cursor: pointer;
+  margin: 0 auto;
+}
+.card:hover {
+  scale: 1.05;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}

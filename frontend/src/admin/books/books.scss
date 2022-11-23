@@ -1,0 +1,78 @@
+.books {
+  display: flex;
+
+  .bookcontainer {
+    flex: 6;
+    .booksTable {
+      height: 90vh;
+      .datatableTitle {
+        width: 100%;
+        font-size: 24px;
+        color: gray;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+        .link {
+          text-decoration: none;
+          color: green;
+          font-size: 16px;
+          font-weight: 400;
+          border: 1px solid green;
+          padding: 5px;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 60px);
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: gray;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 350px;
+      input,
+      select {
+        padding: 10px;
+        font-size: 1rem;
+        outline: none;
+        color: gray;
+      }
+      .image-preview {
+        width: 50px;
+        margin: 0 auto;
+      }
+      button {
+        padding: 10px;
+        border: none;
+        background-color: #a06dcfa1;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        &:hover {
+          background-color: #a06dcf;
+        }
+      }
+    }
+  }
+}

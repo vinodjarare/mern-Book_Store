@@ -1,0 +1,106 @@
+.book-detail {
+  width: 100%;
+  min-height: calc(100vh - 180px);
+}
+.book-detail > h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2rem;
+}
+.book-detail-body {
+  display: flex;
+  padding: 3rem 3rem;
+}
+.left {
+  flex: 1 1 !important;
+  display: flex;
+  justify-content: center;
+}
+.left > img {
+  width: 300px;
+  height: auto;
+}
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+}
+.right > span {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: gray;
+}
+.right > h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.right > h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.right > p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: justify;
+}
+.input-div {
+  display: flex;
+  gap: 5px;
+}
+.input-div > button {
+  background-color: #1976d2;
+  border: none;
+  padding: 8px 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.input-div > input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 50px;
+  text-align: center;
+}
+.right > .description {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.button-group {
+  margin: 1rem 0;
+  display: flex;
+  gap: 10px;
+}
+.button-group > button {
+  padding: 10px;
+  background-color: #1976d2;
+  color: whitesmoke;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+@media screen and (max-width: 840px) {
+  .book-detail {
+    min-height: 100vh;
+  }
+  .book-detail-body {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  .left > img {
+    margin-left: 0 0;
+    width: 240px;
+  }
+  .input-div {
+    justify-content: center;
+  }
+  .button-group {
+    justify-content: center;
+  }
+}
