@@ -1,23 +1,31 @@
 import axios from "axios";
-export const fetchallbooks = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: "allBooksRequest",
-    });
+export const fetchallbooks =
+  (currentPage = 1, price = [0, 25000], category) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: "allBooksRequest",
+      });
+      let link = `/api/v1/books?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
+      if (category) {
+        link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+      }
+      const { data } = await axios.get(link);
 
-    const { data } = await axios.get(`/api/v1/books`);
-
-    dispatch({
-      type: "allBooksSuccess",
-      payload: data.books,
-    });
-  } catch (error) {
-    dispatch({
-      type: "allBooksFail",
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: "allBooksSuccess",
+        payload: data.books,
+        booksCount: data.booksCount,
+        filteredbooksCount: data.filteredbooksCount,
+        resultPerPage: data.resultPerPage,
+      });
+    } catch (error) {
+      dispatch({
+        type: "allBooksFail",
+        payload: error.response.data.message,
+      });
+    }
+  };
 export const fetchaBookDetail = (id) => async (dispatch) => {
   try {
     dispatch({

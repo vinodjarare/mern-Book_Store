@@ -11,6 +11,9 @@ export const booksReducer = createReducer(
     allBooksSuccess: (state, action) => {
       state.loading = false;
       state.books = action.payload;
+      state.booksCount = action.booksCount;
+      state.filteredbooksCount = action.filteredbooksCount;
+      state.resultPerPage = action.resultPerPage;
     },
     allBooksFail: (state, action) => {
       state.loading = false;

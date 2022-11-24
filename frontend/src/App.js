@@ -32,15 +32,15 @@ const App = () => {
         <Route path="/books" element={<AllBooks />} />
         <Route path="/books/:id" element={<BookDetail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-          <Route path="/admin">
-            <Route index element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="users/:id" element={<New />} />
-            <Route path="books" element={<Books />} />
-            <Route path="books/new" element={<NewBook />} />
-          </Route>
+        {/* <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}> */}
+        <Route path="/admin">
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="users/:id" element={<New />} />
+          <Route path="books" element={<Books />} />
+          <Route path="books/new" element={<NewBook />} />
         </Route>
+        {/* </Route> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
