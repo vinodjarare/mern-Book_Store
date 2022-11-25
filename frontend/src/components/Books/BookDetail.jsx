@@ -1,6 +1,6 @@
 import "./bookDetail.scss";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchaBookDetail } from "../../Actions/bookAction";
@@ -82,7 +82,9 @@ const BookDetail = () => {
             <button className="btn" onClick={cartHandler}>
               Add to cart
             </button>
-            <button className="btn">Go to cart</button>
+            <Link to="/cart" className="btn cart-btn">
+              Go to cart
+            </Link>
           </motion.div>
         </motion.div>
       </div>

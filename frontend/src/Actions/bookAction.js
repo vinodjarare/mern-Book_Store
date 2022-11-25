@@ -8,7 +8,7 @@ export const fetchallbooks =
       });
       let link = `/api/v1/books?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
       if (category) {
-        link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+        link = `/api/v1/books?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&categary=${category}`;
       }
       const { data } = await axios.get(link);
 

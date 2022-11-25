@@ -7,20 +7,21 @@ import BooksCard from "../Card/Card";
 import "./bookDetail.scss";
 import Pagination from "react-js-pagination";
 import { FilterAltOffOutlined, FilterAltOutlined } from "@mui/icons-material";
+import Loader from "../Loader/Loader";
 
 const AllBooks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [openFilter, setOpenFilter] = useState(false);
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState([0, 25000]);
+  const [price, setPrice] = useState([0, 2500]);
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2,
+        delayChildren: 0.2,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -40,15 +41,17 @@ const AllBooks = () => {
     setPrice(newPrice);
   };
   const dispatch = useDispatch();
-  const { books, resultPerPage, filteredbooksCount, booksCount } = useSelector(
-    (state) => state.book
-  );
+  const { books, resultPerPage, filteredbooksCount, booksCount, loading } =
+    useSelector((state) => state.book);
   let count = filteredbooksCount;
 
   useEffect(() => {
+    console.log("inside useEffect");
     dispatch(fetchallbooks(currentPage, price, category));
   }, [dispatch, currentPage, price, category]);
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <Container className="book-detail">
         <Button
@@ -74,7 +77,7 @@ const AllBooks = () => {
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             min={0}
-            max={25000}
+            max={2500}
           />
 
           <Typography variant="h6">Categories</Typography>
@@ -97,8 +100,8 @@ const AllBooks = () => {
           component={motion.div}
           variants={container}
           initial="hidden"
-          whileInView="visible"
-          transition={{ delay: 0.5 }}
+          animate="visible"
+          transition={{ delay: 0.4 }}
         >
           {books &&
             books.map((book) => (

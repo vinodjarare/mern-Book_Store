@@ -32,12 +32,11 @@ export const getAllBooks = asyncError(async (req, res, next) => {
   const apiFeature = new ApiFeatures(Book.find(), req.query).search().filter();
 
   let books = await apiFeature.query;
-
   let filteredbooksCount = books.length;
 
   apiFeature.pagination(resultPerPage);
 
-  // books = await apiFeature.query;
+  books = await apiFeature.query.clone();
 
   res.status(200).json({
     success: true,
