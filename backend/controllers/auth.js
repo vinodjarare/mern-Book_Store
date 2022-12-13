@@ -87,8 +87,6 @@ export const logout = asyncError(async (req, res, next) => {
       sucess: true,
       message: "Logged out",
     });
-  const token = req.cookies("token");
-  if (!token) return next(new ErrorHandler("you are not logged in", 401));
 });
 
 //Update User

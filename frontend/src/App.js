@@ -26,6 +26,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OrderSuccess from "./components/Cart/OrderSuccess";
+import Orders from "./admin/orders/Orders";
+import MyOrders from "./components/MyOrders/MyOrders";
+import OrderDetails from "./components/MyOrders/OrderDetails";
+import ProcessOrder from "./admin/orders/ProcessOrder";
 const App = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
@@ -39,8 +43,6 @@ const App = () => {
   }, []);
   const { isAuthenticated } = useSelector((state) => state.user);
 
-  const stripesec =
-    "pk_test_51LiZs7SIfK4ofOzioYXJMoWVlUK7wep0qAVogrvL2kkR37CBhWgQsP7vQYKkuRAPc5uDOYIiEmCUrcnMJryMVzgr00Hs0uwd4g";
   return (
     <>
       <Router>
@@ -50,30 +52,34 @@ const App = () => {
           <Route path="/books" element={<AllBooks />} />
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/shipping" element={<Shipping />} />
-          <Route path="/order/confirm" element={<ConfirmOrder />} />
-          <Route path="/success" element={<OrderSuccess />} />
-          {/* <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}> */}
-          <Route path="/admin">
-            <Route index element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="users/:id" element={<New />} />
-            <Route path="books" element={<Books />} />
-            <Route path="books/new" element={<NewBook />} />
+          <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+            <Route path="/orders" element={<MyOrders />} />
+            <Route path="/orders/:id" element={<OrderDetails />} />
+            <Route path="/shipping" element={<Shipping />} />
+            <Route path="/order/confirm" element={<ConfirmOrder />} />
+            <Route path="/success" element={<OrderSuccess />} />
+            <Route path="/admin">
+              <Route index element={<Dashboard />} />
+              <Route path="users" element={<Users />} />
+              <Route path="users/:id" element={<New />} />
+              <Route path="books" element={<Books />} />
+              <Route path="books/new" element={<NewBook />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="orders/:id" element={<ProcessOrder />} />
+            </Route>
+            {stripeApiKey && (
+              <Route
+                path="/process/payment"
+                element={
+                  <Elements stripe={loadStripe(stripeApiKey)}>
+                    <Payment />
+                  </Elements>
+                }
+              />
+            )}
           </Route>
-          {/* </Route> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {stripeApiKey && (
-            <Route
-              path="/process/payment"
-              element={
-                <Elements stripe={loadStripe(stripeApiKey)}>
-                  <Payment />
-                </Elements>
-              }
-            />
-          )}
         </Routes>
         <Footer />
       </Router>

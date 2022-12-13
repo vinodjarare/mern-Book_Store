@@ -1,5 +1,13 @@
-import { Book, Menu, ShoppingCartOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import {
+  AccountCircle,
+  Book,
+  ExitToApp,
+  GridView,
+  ListAlt,
+  Menu,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -11,6 +19,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  SpeedDial,
+  SpeedDialAction,
   styled,
   Tab,
   Tabs,
@@ -18,7 +28,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../Actions/userAction";
+import { toast } from "react-toastify";
 
 const Pages = [
   {
@@ -63,6 +75,7 @@ const DrawerCompo = ({ openDrawer, setOpenDrawer }) => {
 
 const Navbar = () => {
   const { cartItems: cart } = useSelector((state) => state.cart);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const StyledToolbar = styled(Toolbar)({
     display: "flex",
     justifyContent: "space-between",
@@ -81,8 +94,33 @@ const Navbar = () => {
     alignItems: "center",
     gap: "20px",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [value, setValue] = useState(0);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("Logout Succesfully");
+  };
+  const dashboard = () => {
+    navigate("/admin");
+  };
+  const handleMyOrders = () => {
+    navigate("/orders");
+  };
+  const actions = [
+    { icon: <ListAlt />, name: "Orders", func: handleMyOrders },
+    { icon: <ExitToApp />, name: "Logout", func: handleLogout },
+  ];
+  if (user?.isAdmin === true) {
+    actions.unshift({
+      icon: <GridView />,
+      name: "Dashboard",
+      func: dashboard,
+    });
+  }
 
   return (
     <AppBar position="static">
@@ -117,7 +155,13 @@ const Navbar = () => {
             />
           ))}
         </Tabs>
-        <Icons>
+        <Icons
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Badge
             badgeContent={cart.length}
             color="error"
@@ -126,7 +170,41 @@ const Navbar = () => {
           >
             <ShoppingCartOutlined />
           </Badge>
-          <Avatar style={{ width: "25px", height: "25px" }} />
+          {isAuthenticated ? (
+            <SpeedDial
+              ariaLabel="user"
+              icon={<AccountCircle />}
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              open={open}
+              direction="down"
+              sx={{
+                position: "absolute",
+                top: "80px",
+                right: "20px",
+              }}
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  components={Link}
+                  to={action.link}
+                  key={action.name}
+                  onClick={action.func}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  tooltipOpen={window.innerWidth <= 600 ? true : false}
+                />
+              ))}
+            </SpeedDial>
+          ) : (
+            <Avatar
+              component={Link}
+              to="/login"
+              sx={{ backgroundColor: "#1976d2" }}
+            >
+              <AccountCircle />
+            </Avatar>
+          )}
         </Icons>
       </StyledToolbar>
       <DrawerCompo openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
