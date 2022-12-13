@@ -8,6 +8,7 @@ import authRoute from "./routes/auth.js";
 import bookRoute from "./routes/bookRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import cartRoute from "./routes/cartRoute.js";
+import paymentRoute from "./routes/payment.js";
 import { errorMiddleware } from "./middleware/error.js";
 import cors from "cors";
 const app = express();
@@ -34,6 +35,7 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1", bookRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", cartRoute);
+app.use("/api/v1", paymentRoute);
 
 //Handling uncaught exception
 process.on("uncaughtException", (err) => {

@@ -34,7 +34,7 @@ export const decreasecart = (id) => async (dispatch, getState) => {
 // SAVE SHIPPING INFO
 export const saveShippingInfo = (data) => async (dispatch) => {
   dispatch({
-    type: "SAVE_SHIPPING_INFO",
+    type: "saveShippingInfo",
     payload: data,
   });
 

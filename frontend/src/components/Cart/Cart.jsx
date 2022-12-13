@@ -7,6 +7,7 @@ import {
   decreasecart,
   removeItemsFromCart,
 } from "../../Actions/cartAction";
+import { Link } from "react-router-dom";
 const Cart = () => {
   const dispatch = useDispatch();
   const { cartItems: cart } = useSelector((state) => state.cart);
@@ -119,7 +120,15 @@ const Cart = () => {
             </div>
             <div className="wrapper">
               <h4>Shipping</h4>
-              <h4>₹0</h4>
+              <h4>
+                ₹
+                {cart?.reduce(
+                  (acc, item) => acc + item.quantity * item.price,
+                  0
+                ) > 1000
+                  ? "0"
+                  : 100}
+              </h4>
             </div>
             <Divider />
             <div className="wrapper">
@@ -129,10 +138,20 @@ const Cart = () => {
                 {cart?.reduce(
                   (acc, item) => acc + item.quantity * item.price,
                   0
-                )}
+                ) > 1000
+                  ? cart?.reduce(
+                      (acc, item) => acc + item.quantity * item.price,
+                      0
+                    )
+                  : cart?.reduce(
+                      (acc, item) => acc + item.quantity * item.price,
+                      0
+                    ) + 100}
               </h4>
             </div>
-            <button className="btn">Checkout</button>
+            <Link to="/shipping" className="btn">
+              Checkout
+            </Link>
           </motion.div>
         </div>
       </div>
