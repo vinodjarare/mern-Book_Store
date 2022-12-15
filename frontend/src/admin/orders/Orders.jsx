@@ -47,7 +47,7 @@ const Orders = () => {
   const rows = [];
 
   orders &&
-    orders?.orders?.forEach((item) => {
+    orders?.forEach((item) => {
       rows.push({
         id: item._id,
         status: item.orderStatus,

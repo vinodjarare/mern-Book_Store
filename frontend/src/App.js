@@ -30,6 +30,8 @@ import Orders from "./admin/orders/Orders";
 import MyOrders from "./components/MyOrders/MyOrders";
 import OrderDetails from "./components/MyOrders/OrderDetails";
 import ProcessOrder from "./admin/orders/ProcessOrder";
+import UpdateBook from "./admin/books/UpdateBook";
+import Profile from "./components/User/Profile";
 const App = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
@@ -53,6 +55,7 @@ const App = () => {
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+            <Route path="/account" element={<Profile />} />
             <Route path="/orders" element={<MyOrders />} />
             <Route path="/orders/:id" element={<OrderDetails />} />
             <Route path="/shipping" element={<Shipping />} />
@@ -63,6 +66,7 @@ const App = () => {
               <Route path="users" element={<Users />} />
               <Route path="users/:id" element={<New />} />
               <Route path="books" element={<Books />} />
+              <Route path="books/:id" element={<UpdateBook />} />
               <Route path="books/new" element={<NewBook />} />
               <Route path="orders" element={<Orders />} />
               <Route path="orders/:id" element={<ProcessOrder />} />

@@ -110,3 +110,21 @@ export const deleteUser = (id) => async (dispatch) => {
     });
   }
 };
+
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllUsersRequest",
+    });
+    const { data } = await axios.get(`/api/v1/auth/users/`);
+    dispatch({
+      type: "getAllUsersSuccess",
+      payload: data.users,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllUsersFail",
+      payload: error.response.data.error,
+    });
+  }
+};

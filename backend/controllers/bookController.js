@@ -65,7 +65,7 @@ export const updateBook = asyncError(async (req, res, next) => {
   }
   await cloudinary.v2.uploader.destroy(book.cover.public_id);
 
-  const imagesLink = {};
+  let imagesLink = {};
 
   const result = await cloudinary.v2.uploader.upload(req.body.image, {
     folder: "covers",
@@ -76,7 +76,7 @@ export const updateBook = asyncError(async (req, res, next) => {
     url: result.secure_url,
   };
 
-  req.body.image = imagesLink;
+  req.body.cover = imagesLink;
 
   book = await Book.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

@@ -110,7 +110,11 @@ const Navbar = () => {
   const handleMyOrders = () => {
     navigate("/orders");
   };
+  const handleProfile = () => {
+    navigate("/account");
+  };
   const actions = [
+    { icon: <AccountCircle />, name: "Profile", func: handleProfile },
     { icon: <ListAlt />, name: "Orders", func: handleMyOrders },
     { icon: <ExitToApp />, name: "Logout", func: handleLogout },
   ];

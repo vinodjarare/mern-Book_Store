@@ -8,6 +8,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteBook, fetchallbooks } from "../../Actions/bookAction";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Books = () => {
   const dispatch = useDispatch();
@@ -69,6 +70,10 @@ const Books = () => {
 
   useEffect(() => {
     dispatch(fetchallbooks());
+    if (isDeleted) {
+      toast.success("Book deleted successfully");
+      dispatch({ type: "clearMessage" });
+    }
   }, [dispatch, isDeleted]);
 
   return (

@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 export const userReducer = createReducer(
-  { loading: false, isAuthenticated: false },
+  { loading: false, isAuthenticated: false, deleted: false },
   {
     registerUserRequest: (state) => {
       state.loading = true;
@@ -59,12 +59,27 @@ export const userReducer = createReducer(
     },
     deleteUserRequest: (state) => {
       state.loading = true;
+      state.deleted = false;
     },
     deleteUserSuccess: (state, action) => {
       state.loading = false;
-      state.users = action.payload;
+      state.deleted = action.payload;
     },
     deleteUserFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    deleteReset: (state) => {
+      state.deleted = false;
+    },
+    getAllUsersRequest: (state) => {
+      state.loading = true;
+    },
+    getAllUsersSuccess: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    getAllUsersFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

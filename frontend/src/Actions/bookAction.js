@@ -70,6 +70,30 @@ export const createBook =
       });
     }
   };
+export const updateBook =
+  (id, { name, auther, price, stock, categary, description, image }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: "updateBookRequest",
+      });
+      const config = "application/json  ";
+      const { data } = await axios.put(
+        `/api/v1/books/${id}`,
+        { name, auther, price, stock, categary, description, image },
+        config
+      );
+      dispatch({
+        type: "updateBookSuccess",
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: "updateBookFail",
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 export const deleteBook = (id) => async (dispatch) => {
   try {
@@ -88,4 +112,8 @@ export const deleteBook = (id) => async (dispatch) => {
       payload: error.response.data.message,
     });
   }
+};
+
+export const clearErrors = () => async (dispatch) => {
+  dispatch({ type: "clearError" });
 };

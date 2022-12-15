@@ -34,7 +34,7 @@ export const getAllOrders = () => async (dispatch) => {
 
     dispatch({
       type: "getAllOrdersSuccess",
-      payload: data,
+      payload: data.orders,
     });
   } catch (error) {
     dispatch({

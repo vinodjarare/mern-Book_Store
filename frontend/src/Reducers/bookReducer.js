@@ -3,6 +3,8 @@ import { createReducer } from "@reduxjs/toolkit";
 export const booksReducer = createReducer(
   {
     isDeleted: false,
+    isUpdated: false,
+    success: false,
   },
   {
     allBooksRequest: (state) => {
@@ -33,12 +35,15 @@ export const booksReducer = createReducer(
     },
     createBookRequest: (state) => {
       state.loading = true;
+      state.success = false;
     },
     createBookSuccess: (state, action) => {
+      state.success = true;
       state.loading = false;
       state.book = action.payload;
     },
     createBookFail: (state, action) => {
+      state.success = false;
       state.loading = false;
       state.error = action.payload;
     },
@@ -56,11 +61,30 @@ export const booksReducer = createReducer(
       state.isDeleted = false;
       state.error = action.payload;
     },
+    updateBookRequest: (state) => {
+      state.loading = true;
+      state.isUpdated = false;
+    },
+    updateBookSuccess: (state, action) => {
+      state.loading = false;
+      state.isUpdated = true;
+      state.book = action.payload;
+    },
+    updateBookFail: (state, action) => {
+      state.loading = false;
+      state.isUpdated = false;
+      state.error = action.payload;
+    },
+    updateReset: (state, action) => {
+      state.isUpdated = false;
+    },
     clearError: (state) => {
       state.error = null;
     },
     clearMessage: (state) => {
+      state.isDeleted = false;
       state.message = null;
+      state.success = false;
     },
   }
 );
