@@ -36,6 +36,9 @@ app.use("/api/v1", bookRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", cartRoute);
 app.use("/api/v1", paymentRoute);
+app.use("/", (req, res) => {
+  res.send("<h1>Hay</h1>");
+});
 
 //Handling uncaught exception
 process.on("uncaughtException", (err) => {
