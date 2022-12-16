@@ -2,6 +2,7 @@ import "../books/books.scss";
 import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
 import { DataGrid } from "@mui/x-data-grid";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
@@ -11,7 +12,7 @@ import { getAllOrders, deleteOrder } from "../../Actions/orderAction";
 
 const Orders = () => {
   const dispatch = useDispatch();
-  const { orders } = useSelector((state) => state.order);
+  const { orders, isDeleted } = useSelector((state) => state.order);
   const columns = [
     { field: "id", headerName: "Order ID", width: 200 },
     { field: "status", headerName: "Status", width: 230 },
@@ -58,7 +59,11 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(getAllOrders());
-  }, [dispatch]);
+    if (isDeleted) {
+      toast.success("Order deleted successfully");
+      dispatch({ type: "clearMessage" });
+    }
+  }, [dispatch, isDeleted]);
 
   return (
     <div className="books">

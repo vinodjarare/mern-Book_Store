@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../Actions/userAction";
 import "./signup.scss";
 const Register = () => {
@@ -31,6 +31,7 @@ const Register = () => {
     <div className="register">
       <div className="container">
         <form onSubmit={RegisterHandle}>
+          <h2>Sign Up</h2>
           <input
             type="text"
             name="name"
@@ -53,6 +54,9 @@ const Register = () => {
             placeholder="Enter Password"
           />
           <button type="submit">Sign Up</button>
+          <Link to="/login" className="redirect">
+            Already user?
+          </Link>
         </form>
       </div>
     </div>

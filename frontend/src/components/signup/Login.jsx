@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../Actions/userAction";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./signup.scss";
 
 const Login = () => {
@@ -32,6 +32,7 @@ const Login = () => {
     <div className="register">
       <div className="container">
         <form onSubmit={Loginhandle}>
+          <h2>LogIn</h2>
           <input
             type="email"
             name="email"
@@ -47,6 +48,9 @@ const Login = () => {
             placeholder="Enter Password"
           />
           <button type="submit">Sign Up</button>
+          <Link to="/register" className="redirect">
+            New user?
+          </Link>
         </form>
       </div>
     </div>

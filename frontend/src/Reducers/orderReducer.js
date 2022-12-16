@@ -54,13 +54,11 @@ export const orderReducer = createReducer(
     },
     updateOrderRequest: (state, action) => {
       state.loading = true;
-
       state.isUpdated = false;
     },
     updateOrderSuccess: (state, action) => {
       state.loading = false;
       state.isUpdated = true;
-
       state.orders = action.payload;
     },
     updateOrderFail: (state, action) => {
@@ -77,8 +75,7 @@ export const orderReducer = createReducer(
     },
     deleteOrderSuccess: (state, action) => {
       state.loading = false;
-      state.isDeleted = true;
-      state.orders = action.payload;
+      state.isDeleted = action.payload;
     },
     deleteOrderFail: (state, action) => {
       state.isDeleted = false;
@@ -87,6 +84,10 @@ export const orderReducer = createReducer(
     },
     clearErrors: (state) => {
       state.error = null;
+    },
+    clearMessage: (state) => {
+      state.isDeleted = false;
+      state.isUpdated = false;
     },
   }
 );

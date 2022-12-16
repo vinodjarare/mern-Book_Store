@@ -110,6 +110,23 @@ export const deleteUser = (id) => async (dispatch) => {
     });
   }
 };
+export const updateUser = (id, isAdmin) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "updateUserRequest",
+    });
+    const { data } = await axios.put(`/api/v1/auth/user/${id}`, isAdmin);
+    dispatch({
+      type: "updateUserSuccess",
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "updateUserFail",
+      payload: error.response.data.error,
+    });
+  }
+};
 
 export const getAllUsers = () => async (dispatch) => {
   try {

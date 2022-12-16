@@ -3,22 +3,48 @@ import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import { Delete, Visibility } from "@mui/icons-material";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, getAllUsers } from "../../Actions/userAction";
+import { deleteUser, getAllUsers, updateUser } from "../../Actions/userAction";
 import { toast } from "react-toastify";
 const Users = () => {
   const dispatch = useDispatch();
-  const { users, deleted } = useSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
+  const [role, setRole] = useState(false);
+  const { users, deleted, updated } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(getAllUsers());
     if (deleted) {
       toast.success("User deleted Successfully");
       dispatch({ type: "deleteReset" });
     }
-  }, [dispatch, deleted]);
+    if (updated) {
+      toast.success("User updated Successfully");
+      dispatch({ type: "updateUserReset" });
+    }
+  }, [dispatch, deleted, updated]);
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+  const changeUserRoleHandler = (event, id) => {
+    event.preventDefault();
+    dispatch(updateUser(id, role));
+  };
+  const onchange = (e) => {
+    setRole({ ...role, [e.target.name]: e.target.value });
+    console.log(role);
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 200 },
     { field: "name", headerName: "Name", width: 230 },
@@ -32,14 +58,38 @@ const Users = () => {
     {
       field: "actions",
       headerName: "Actions",
-      with: "auto",
+      width: 300,
       sortable: false,
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/admin/users/${params.row.id}`}>
-              <Visibility color="info" />
-            </Link>
+            <Button onClick={() => setOpen(true)}>
+              <Edit />
+            </Button>
+            <Modal
+              open={open}
+              onClose={() => setOpen(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Change user role
+                </Typography>
+                <form
+                  onSubmit={(event) =>
+                    changeUserRoleHandler(event, params.row.id)
+                  }
+                >
+                  <select name="isAdmin" onChange={onchange}>
+                    <option>Select Role</option>
+                    <option value="false">User</option>
+                    <option value="true">Admin</option>
+                  </select>
+                  <Button type="submit">Update</Button>
+                </form>
+              </Box>
+            </Modal>
             <Button color="error" onClick={() => deleteHandler(params.row.id)}>
               <Delete />
             </Button>
