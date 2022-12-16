@@ -13,6 +13,7 @@ import { errorMiddleware } from "./middleware/error.js";
 import cors from "cors";
 const app = express();
 dotenv.config();
+const port = process.env.PORT || 4000;
 
 //Middleware
 app.use(express.json({ limit: "50mb" }));
@@ -36,7 +37,9 @@ app.use("/api/v1", bookRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", cartRoute);
 app.use("/api/v1", paymentRoute);
-
+app.get("/", (req, res) => {
+  res.send("<h1>Hello World!</h1>");
+});
 //Handling uncaught exception
 process.on("uncaughtException", (err) => {
   console.log(`Error:${err.message}`);
@@ -44,8 +47,8 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is working on http://localhost:${process.env.PORT}`);
+app.listen(port, () => {
+  console.log(`Server is working on http://localhost:${port}`);
 });
 
 //Unhandled promise rejection
