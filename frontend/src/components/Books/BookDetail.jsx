@@ -55,7 +55,7 @@ const BookDetail = () => {
             transition={{ delay: 0.3 }}
             height={500}
             width="auto"
-            src={book?.cover.url}
+            src={book?.cover?.url}
             alt="product_image"
           />
         </div>
