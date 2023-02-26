@@ -127,3 +127,81 @@ export const deleteOrder = asyncError(async (req, res, next) => {
     success: true,
   });
 });
+
+export const income = async (req, res) => {
+  const date = new Date();
+  const sixMonthsAgo = new Date(
+    date.getFullYear(),
+    date.getMonth() - 6,
+    date.getDate()
+  );
+
+  try {
+    const orders = await Order.aggregate([
+      {
+        $match: {
+          orderStatus: "Delivered",
+          paidAt: {
+            $gte: sixMonthsAgo,
+            $lt: date,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: "$paidAt" },
+          totalIncome: { $sum: "$totalPrice" },
+        },
+      },
+    ]);
+
+    const stats = [];
+    const monthMap = {
+      1: "January",
+      2: "February",
+      3: "March",
+      4: "April",
+      5: "May",
+      6: "June",
+      7: "July",
+      8: "August",
+      9: "September",
+      10: "October",
+      11: "November",
+      12: "December",
+    };
+
+    // Initialize stats array with 0 income for past 6 months
+    for (let i = 0; i < 6; i++) {
+      let date = new Date();
+      let month = date.getMonth() - i;
+      let year = date.getFullYear();
+
+      if (month < 0) {
+        month += 12;
+        year -= 1;
+      }
+      let monthName = new Date(year, month).toLocaleString("en-US", {
+        month: "long",
+      });
+      let id = month + 1;
+      stats.unshift({ id, name: monthName, Total: 0 });
+    }
+
+    // Update stats array with income from orders
+    for (let i = 0; i < orders.length; i++) {
+      for (let j = 0; j < stats.length; j++) {
+        if (orders[i]._id === stats[j].id) {
+          stats[j].Total = orders[i].totalIncome;
+        }
+      }
+    }
+
+    res.json({
+      success: true,
+      data: stats,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};

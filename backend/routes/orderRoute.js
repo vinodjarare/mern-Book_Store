@@ -3,6 +3,7 @@ import {
   deleteOrder,
   getAllOrders,
   getSingleOrder,
+  income,
   myOrders,
   newOrder,
   updateOrder,
@@ -21,5 +22,7 @@ router
   .route("/admin/order/:id")
   .put(isAuthenticated, authorizeAdmin, updateOrder)
   .delete(isAuthenticated, authorizeAdmin, deleteOrder);
+
+router.route("/income").get(isAuthenticated, authorizeAdmin, income);
 
 export default router;

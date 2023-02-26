@@ -81,6 +81,17 @@ export const orderReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
+    getIncomeRequest: (state, action) => {
+      state.loading = true;
+    },
+    getIncomeSuccess: (state, action) => {
+      state.loading = false;
+      state.income = action.payload;
+    },
+    getIncomeFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     clearErrors: (state) => {
       state.error = null;
     },

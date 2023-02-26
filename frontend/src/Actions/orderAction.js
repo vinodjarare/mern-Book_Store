@@ -121,3 +121,19 @@ export const getOrderDetails = (id) => async (dispatch) => {
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: "clearErrors" });
 };
+
+// My Orders
+export const getIncome = () => async (dispatch) => {
+  try {
+    dispatch({ type: "getIncomeRequest" });
+
+    const { data } = await axios.get("/api/v1/income");
+
+    dispatch({ type: "getIncomeSuccess", payload: data?.data });
+  } catch (error) {
+    dispatch({
+      type: "getIncomeFail",
+      payload: error.response.data.message,
+    });
+  }
+};
