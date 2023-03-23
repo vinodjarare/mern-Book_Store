@@ -33,6 +33,7 @@ import UpdateBook from "./admin/books/UpdateBook";
 import Profile from "./components/User/Profile";
 import Signup from "./Pages/Signup";
 import About from "./components/About/About";
+import Contact from "./components/Contact/Contact";
 
 const App = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
             <Route path="/account" element={<Profile />} />
             <Route path="/orders" element={<MyOrders />} />
