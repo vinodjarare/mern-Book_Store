@@ -4,8 +4,7 @@ import Users from "./admin/users/Users";
 import Books from "./admin/books/Books";
 import New from "./admin/users/New";
 import NewBook from "./admin/books/NewBook";
-import Login from "./components/signup/Login";
-import Register from "./components/signup/Register";
+import Login from "./Pages/Login";
 import BookDetail from "./components/Books/BookDetail";
 import Home from "./Pages/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -32,6 +31,7 @@ import OrderDetails from "./components/MyOrders/OrderDetails";
 import ProcessOrder from "./admin/orders/ProcessOrder";
 import UpdateBook from "./admin/books/UpdateBook";
 import Profile from "./components/User/Profile";
+import Signup from "./Pages/Signup";
 const App = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
@@ -83,7 +83,7 @@ const App = () => {
             )}
           </Route>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Signup />} />
         </Routes>
         <Footer />
       </Router>
