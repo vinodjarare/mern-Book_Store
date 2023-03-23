@@ -7,7 +7,7 @@ import {
   Menu,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -22,8 +22,6 @@ import {
   SpeedDial,
   SpeedDialAction,
   styled,
-  Tab,
-  Tabs,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -31,7 +29,6 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../Actions/userAction";
 import { toast } from "react-toastify";
-
 const Pages = [
   {
     title: "Home",
@@ -94,9 +91,9 @@ const Navbar = () => {
     alignItems: "center",
     gap: "20px",
   });
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [value, setValue] = useState(0);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -144,21 +141,18 @@ const Navbar = () => {
           </Typography>
           <Book sx={{ display: { xs: "block", sm: "none" } }} />
         </StyledBox>
-        <Tabs
-          textColor="inherit"
-          value={value}
-          onChange={(e, value) => setValue(value)}
-          sx={{ display: { xs: "none", sm: "block" } }}
-        >
+        <List style={{ display: "flex" }}>
           {Pages.map((page, index) => (
-            <Tab
+            <ListItemButton
               key={index}
-              label={page.title}
-              component={Link}
-              to={page.url}
-            />
+              components={Link}
+              to={page?.url}
+              selected={page?.url === location.pathname}
+            >
+              <ListItemText primary={page?.title} />
+            </ListItemButton>
           ))}
-        </Tabs>
+        </List>
         <Icons
           sx={{
             display: "flex",
