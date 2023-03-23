@@ -75,7 +75,7 @@ const Cart = () => {
                 <div className="details">
                   <h4>{cart?.name}</h4>
                   <h4>{cart?.auther}</h4>
-                  <button onClick={() => removeHandler(cart.id)}>remove</button>
+                  <button onClick={() => removeHandler(cart.id)}>Remove</button>
                 </div>
               </div>
               <div className="right-wrapper">

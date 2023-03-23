@@ -14,7 +14,7 @@ const NewBook = () => {
     auther: "",
     price: 0,
     stock: 1,
-    categary: "",
+    categary: "adventure",
     description: "",
   });
   const [image, setImage] = useState("");
@@ -114,7 +114,7 @@ const NewBook = () => {
                 placeholder="description"
                 name="description"
               />
-              {image !== null && (
+              {image && (
                 <img
                   className="image-preview"
                   src={image}

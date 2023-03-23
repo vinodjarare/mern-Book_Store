@@ -32,6 +32,7 @@ import ProcessOrder from "./admin/orders/ProcessOrder";
 import UpdateBook from "./admin/books/UpdateBook";
 import Profile from "./components/User/Profile";
 import Signup from "./Pages/Signup";
+
 const App = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
@@ -39,11 +40,11 @@ const App = () => {
     const { data } = await axios.get("/api/v1/stripeapikey");
     setStripeApiKey(data.stripeApiKey);
   };
+  const { isAuthenticated } = useSelector((state) => state.user);
   useEffect(() => {
     store.dispatch(loadUser());
     getStripeApiKey();
-  }, []);
-  const { isAuthenticated } = useSelector((state) => state.user);
+  }, [isAuthenticated]);
 
   return (
     <>
