@@ -136,7 +136,6 @@ export const getUser = async (req, res, next) => {
     });
   }
 
-  await User.findById(req.params.id);
   res.status(200).json({
     success: true,
     user,
