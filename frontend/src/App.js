@@ -89,6 +89,7 @@ const App = () => {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="*" element={<Home />} />
         </Routes>
         <Footer />
       </Router>

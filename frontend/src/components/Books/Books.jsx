@@ -1,6 +1,6 @@
 import { Button, Container, Grid, Slider, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchallbooks } from "../../Actions/bookAction";
 import BooksCard from "../Card/Card";
@@ -34,12 +34,18 @@ const AllBooks = () => {
     },
   };
   const categories = ["adventure", "fantacy", "novel", "science", "sci-fi"];
-  const setCurrentPageNo = (e) => {
-    setCurrentPage(e);
-  };
-  const priceHandler = (event, newPrice) => {
-    setPrice(newPrice);
-  };
+  const setCurrentPageNo = useCallback(
+    (e) => {
+      setCurrentPage(e);
+    },
+    [currentPage]
+  );
+  const priceHandler = useCallback(
+    (event, newPrice) => {
+      setPrice(newPrice);
+    },
+    [price]
+  );
   const dispatch = useDispatch();
   const { books, resultPerPage, filteredbooksCount, booksCount, loading } =
     useSelector((state) => state.book);
@@ -103,20 +109,19 @@ const AllBooks = () => {
           animate="visible"
           transition={{ delay: 0.4 }}
         >
-          {books &&
-            books.map((book) => (
-              <Grid
-                item
-                xs={12}
-                sm={4}
-                md={3}
-                component={motion.div}
-                variants={item}
-                key={book._id}
-              >
-                <BooksCard book={book} />
-              </Grid>
-            ))}
+          {books?.map((book) => (
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={3}
+              component={motion.div}
+              variants={item}
+              key={book._id}
+            >
+              <BooksCard book={book} />
+            </Grid>
+          ))}
         </Grid>
       </Container>
       {resultPerPage < count && (
