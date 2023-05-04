@@ -9,7 +9,9 @@ import { Delete, Edit } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAllOrders, deleteOrder } from "../../Actions/orderAction";
+import { io } from "socket.io-client";
 
+const socket = io("/");
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, isDeleted } = useSelector((state) => state.order);
@@ -59,10 +61,19 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(getAllOrders());
+    socket.on("new_order", (order) => {
+      dispatch(getAllOrders());
+      toast.info(`New order with ID ${order._id} has been placed`);
+    });
     if (isDeleted) {
       toast.success("Order deleted successfully");
       dispatch({ type: "clearMessage" });
     }
+
+    //cleanup the event listener on component unmount
+    return () => {
+      socket.off("new_order");
+    };
   }, [dispatch, isDeleted]);
 
   return (

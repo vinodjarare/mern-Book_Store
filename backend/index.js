@@ -10,9 +10,37 @@ import orderRoute from "./routes/orderRoute.js";
 import cartRoute from "./routes/cartRoute.js";
 import paymentRoute from "./routes/payment.js";
 import { errorMiddleware } from "./middleware/error.js";
+import { Server } from "socket.io";
+import http from "http";
 import cors from "cors";
+
 const app = express();
 dotenv.config();
+
+//setting up socket.io
+
+const server = http.createServer(app);
+
+export const io = new Server(server);
+
+io.on("connection", (socket) => {
+  console.log("A new client connected");
+
+  // emit a welcome message to the client
+  socket.emit("message", "Welcome to my Socket.io server!");
+
+  // listen for new_order and order_status_update events and broadcast them to all connected clients
+  socket.on("new_order", (order) => {
+    console.log("New order:", order);
+    socket.broadcast.emit("new_order", order);
+  });
+
+  socket.on("order_status_update", (order) => {
+    console.log("Order status update:", order);
+    socket.broadcast.emit("order_status_update", order);
+  });
+});
+
 const port = process.env.PORT || 4000;
 
 //Middleware
@@ -47,7 +75,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is working on http://localhost:${port}`);
 });
 

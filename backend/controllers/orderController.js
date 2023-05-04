@@ -2,6 +2,7 @@ import Order from "../models/orderModel.js";
 import Book from "../models/bookModel.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import { asyncError } from "../middleware/error.js";
+import { io } from "../index.js";
 // Create new Order
 export const newOrder = asyncError(async (req, res, next) => {
   const {
@@ -25,6 +26,9 @@ export const newOrder = asyncError(async (req, res, next) => {
     paidAt: Date.now(),
     user: req.user._id,
   });
+
+  // emit a new_order event with the order data
+  io.emit("new_order", order);
 
   res.status(201).json({
     success: true,
@@ -100,6 +104,10 @@ export const updateOrder = asyncError(async (req, res, next) => {
   }
 
   await order.save({ validateBeforeSave: false });
+
+  // emit an order_status_update event with the updated order data
+  io.emit("order_status_update", order);
+
   res.status(200).json({
     success: true,
   });

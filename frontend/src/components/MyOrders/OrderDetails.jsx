@@ -6,7 +6,9 @@ import { Typography } from "@mui/material";
 import { getOrderDetails, clearErrors } from "../../Actions/orderAction";
 import Loader from "../Loader/Loader";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
 
+const socket = io("/");
 const OrderDetails = () => {
   const { order, error, loading } = useSelector((state) => state.order);
   const location = useLocation();
@@ -21,6 +23,19 @@ const OrderDetails = () => {
     }
 
     dispatch(getOrderDetails(id));
+
+    // Listen for changes to the order status
+    socket.on("order_status_update", (updatedOrder) => {
+      console.log(updatedOrder);
+      if (updatedOrder._id === id) {
+        // Update the order details in the UI
+        dispatch(getOrderDetails(id));
+      }
+    });
+    // Clean up the socket connection when the component unmounts
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, [dispatch, error, id]);
   return (
     <Fragment>
@@ -98,7 +113,7 @@ const OrderDetails = () => {
               <div className="orderDetailsCartItemsContainer">
                 {order.orderItems &&
                   order.orderItems.map((item) => (
-                    <div key={item.product}>
+                    <div key={item.image}>
                       <img src={item.image} alt="Product" />
                       <Link to={`/product/${item.product}`}>
                         {item.name}
