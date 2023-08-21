@@ -61,7 +61,10 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(getAllOrders());
-    socket.on("new_order", (order) => {
+
+    socket.emit("join", "adminRoom");
+
+    socket.on("orderPlaced", (order) => {
       dispatch(getAllOrders());
       toast.info(`New order with ID ${order._id} has been placed`);
     });

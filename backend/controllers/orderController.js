@@ -28,7 +28,8 @@ export const newOrder = asyncError(async (req, res, next) => {
   });
 
   // emit a new_order event with the order data
-  io.emit("new_order", order);
+  const eventEmitter = req.app.get("eventEmitter");
+  eventEmitter.emit("orderPlaced", order);
 
   res.status(201).json({
     success: true,
@@ -65,7 +66,7 @@ export const myOrders = asyncError(async (req, res, next) => {
 
 // get all Orders -- Admin
 export const getAllOrders = asyncError(async (req, res, next) => {
-  const orders = await Order.find();
+  const orders = await Order.find().sort({ createdAt: -1 });
 
   let totalAmount = 0;
 
@@ -106,7 +107,8 @@ export const updateOrder = asyncError(async (req, res, next) => {
   await order.save({ validateBeforeSave: false });
 
   // emit an order_status_update event with the updated order data
-  io.emit("order_status_update", order);
+  const eventEmitter = req.app.get("eventEmitter");
+  eventEmitter.emit("orderUpdated", order);
 
   res.status(200).json({
     success: true,

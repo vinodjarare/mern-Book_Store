@@ -50,7 +50,6 @@ export const login =
       });
     }
   };
-
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({
@@ -64,10 +63,18 @@ export const loadUser = () => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
-    dispatch({
-      type: "loadUserFail",
-      payload: error.response.data.message,
-    });
+    if (error.response.status === 401) {
+      dispatch({
+        type: "loadUserFail",
+      });
+
+      return;
+    } else {
+      dispatch({
+        type: "loadUserFail",
+        payload: error.response.data.message,
+      });
+    }
   }
 };
 

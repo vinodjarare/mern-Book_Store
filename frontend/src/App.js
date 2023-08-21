@@ -34,13 +34,21 @@ import Profile from "./components/User/Profile";
 import Signup from "./Pages/Signup";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
+import ErrorBoundary from "./ErrorBoundary";
 
 const App = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
   const getStripeApiKey = async () => {
-    const { data } = await axios.get("/api/v1/stripeapikey");
-    setStripeApiKey(data.stripeApiKey);
+    try {
+      const res = await axios.get("/api/v1/stripeapikey");
+      if (res.status == 401) {
+        return setStripeApiKey("");
+      }
+      setStripeApiKey(res.data.stripeApiKey);
+    } catch (err) {
+      // console.log(err);
+    }
   };
   const { isAuthenticated } = useSelector((state) => state.user);
   useEffect(() => {
@@ -49,7 +57,7 @@ const App = () => {
   }, [isAuthenticated]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Router>
         <Navbar />
         <Routes>
@@ -104,7 +112,7 @@ const App = () => {
         draggable
         pauseOnHover
       />
-    </>
+    </ErrorBoundary>
   );
 };
 

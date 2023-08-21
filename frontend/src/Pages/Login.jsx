@@ -46,7 +46,7 @@ const Login = () => {
     if (isAuthenticated) {
       navigate("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
   return (
     <div>
       <Grid>

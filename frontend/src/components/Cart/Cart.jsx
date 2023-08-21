@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems: cart } = useSelector((state) => state.cart);
+  const { cartItems: cart, isOpen } = useSelector((state) => state.cart);
 
   const removeHandler = (id) => {
     dispatch(removeItemsFromCart(id));

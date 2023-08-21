@@ -11,7 +11,7 @@ import TransferWithinAStationIcon from "@mui/icons-material/TransferWithinAStati
 import { Country, State } from "country-state-city";
 import CheckoutSteps from "./CheckoutSteps";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const Shipping = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Shipping = () => {
     e.preventDefault();
 
     if (phoneNo.length < 10 || phoneNo.length > 10) {
-      //   alert.error("Phone Number should be 10 digits Long");
+      toast.error("Phone Number should be 10 digits Long");
       return;
     }
     dispatch(

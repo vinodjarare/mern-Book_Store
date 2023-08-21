@@ -25,7 +25,12 @@ const OrderDetails = () => {
     dispatch(getOrderDetails(id));
 
     // Listen for changes to the order status
-    socket.on("order_status_update", (updatedOrder) => {
+
+    if (id) {
+      socket.emit("join", `order_${id}`);
+    }
+
+    socket.on("orderUpdated", (updatedOrder) => {
       console.log(updatedOrder);
       if (updatedOrder._id === id) {
         // Update the order details in the UI

@@ -13,32 +13,58 @@ import { errorMiddleware } from "./middleware/error.js";
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
+import { EventEmitter } from "events";
 
 const app = express();
 dotenv.config();
 
 //setting up socket.io
 
+const eventEmitter = new EventEmitter();
+
+app.set("eventEmitter", eventEmitter);
+
+eventEmitter.on("hii", () => {
+  console.log(`hello from event emitter`);
+});
+
+eventEmitter.emit("hii");
+
 const server = http.createServer(app);
 
 export const io = new Server(server);
 
+// io.on("connection", (socket) => {
+//   console.log("A new client connected");
+
+//   // emit a welcome message to the client
+//   socket.emit("message", "Welcome to my Socket.io server!");
+
+//   // listen for new_order and order_status_update events and broadcast them to all connected clients
+//   socket.on("new_order", (order) => {
+//     console.log("New order:", order);
+//     socket.broadcast.emit("new_order", order);
+//   });
+
+//   socket.on("order_status_update", (order) => {
+//     console.log("Order status update:", order);
+//     socket.broadcast.emit("order_status_update", order);
+//   });
+// });
+
 io.on("connection", (socket) => {
-  console.log("A new client connected");
-
-  // emit a welcome message to the client
-  socket.emit("message", "Welcome to my Socket.io server!");
-
-  // listen for new_order and order_status_update events and broadcast them to all connected clients
-  socket.on("new_order", (order) => {
-    console.log("New order:", order);
-    socket.broadcast.emit("new_order", order);
+  // Join
+  socket.on("join", (orderId) => {
+    socket.join(orderId);
   });
+});
 
-  socket.on("order_status_update", (order) => {
-    console.log("Order status update:", order);
-    socket.broadcast.emit("order_status_update", order);
-  });
+eventEmitter.on("orderUpdated", (data) => {
+  io.to(`order_${data.id}`).emit("orderUpdated", data);
+});
+
+eventEmitter.on("orderPlaced", (data) => {
+  io.to("adminRoom").emit("orderPlaced", data);
 });
 
 const port = process.env.PORT || 4000;
